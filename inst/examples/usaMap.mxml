@@ -1,0 +1,64 @@
+<mx:Application initialize="usa()" layout="absolute" xmlns:mx="http://www.adobe.com/2006/mxml"
+          width="1000" height="1000">
+
+
+  <!-- Put the slider at the top -->
+<mx:HSlider id="yearSlider" width="100%" minimum="0" maximum="100" value="100" 
+            dataTipPlacement="top" 
+            tickColor="black" 
+            snapInterval="4" tickInterval="10" 
+            labels="['1900', '1904', '1908', '1912', '1916', '1920', '1924', '1928', '1932', '1936', '1940', 
+                     '1944', '1948', '1952', '1956', '1960', '1964', '1968', '1972', '1976', '1980', '1984', 
+                     '1988', '1992', '1996', '2000', '2004', '2008']" 
+            allowTrackClick="true" 
+            liveDragging="false"
+            change = "showYear();"
+            toolTip="{yearSlider.value + 1900}" 
+	    />						       <!--toolTip is for the slider, not the thumb! Should it be SliderDateTip?-->
+
+<!-- Load the data -->
+<mx:Script source="usaPolygons.as"/>
+<mx:Script source="usaColors.as"/>
+
+<mx:Script source="usaMap.as"/>
+
+<!--
+<mx:Script><![CDATA[
+import mx.events.ToolTipEvent;
+public function showTooltip(ev: ToolTipEvent) {
+  ev.toolTip = 20; // ev.value * 4 + 1900;
+}
+]]></mx:Script>
+-->
+
+<mx:Script><![CDATA[
+import mx.events.SliderEvent;
+
+public function showYear() : void {
+  var i : int;
+  var val : int;
+  var year : int;
+
+  val = yearSlider.value;
+
+  year = val/4;
+
+  var colors : Array = countyColors[year];
+
+  for(i = 0; i < fpolys.length; i++) {
+      var g : Graphics;
+      var color : Number;
+      color = colors[i]
+      g = fpolys[i].graphics;
+      g.lineStyle(.5, 0x0000FF);
+      g.beginFill(color);
+      Shapes.drawPolygon(g, polys[i]);                
+  }
+}
+]]></mx:Script>
+
+
+
+
+
+</mx:Application>

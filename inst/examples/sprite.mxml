@@ -1,0 +1,26 @@
+<mx:Application initialize="init()" layout="absolute" xmlns:mx="http://www.adobe.com/2006/mxml"
+          width="1000" height="1000">
+
+<mx:Script><![CDATA[
+import mx.core.UIComponent;
+public function init() : void {
+
+  var ref : UIComponent = new UIComponent(); // creating a UI component Object  
+  var square:Sprite = new Sprite();
+  square.graphics.beginFill(0xFF0000);
+  square.graphics.drawRect(0,0,100,100);
+  square.graphics.endFill();
+  square.addEventListener(MouseEvent.CLICK, reportClick);
+  square.x = square.y = 50;
+  ref.addChild(square);
+  addChild(ref);
+
+  ref.addEventListener(MouseEvent.CLICK, reportClick);
+}
+
+public function reportClick(event:MouseEvent):void
+{
+    trace(event.currentTarget.toString() +         " dispatches MouseEvent. Local coords [" +         event.localX + "," + event.localY + "] Stage coords [" +         event.stageX + "," + event.stageY + "]");
+}
+]]></mx:Script>
+</mx:Application>

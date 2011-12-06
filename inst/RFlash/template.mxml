@@ -1,0 +1,8 @@
+<mx:Application initialize="" 
+                width="1000" height="1000"
+                layout="absolute" 
+                xmlns:mx="http://www.adobe.com/2006/mxml">
+
+<mx:Script source=""/>
+
+</mx:Application>

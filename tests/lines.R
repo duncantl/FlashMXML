@@ -1,0 +1,8 @@
+library(FlashMXML)
+mxmlDevice("lines.mxml", top = 150, compile = !is.null(getOption("mxmlc")))
+  plot(1:10, main = "Some text")
+  text(1, 5, "Hi there")
+  text(1:10, 1:10, 1:10)
+  abline(v = seq(.5, by = 1, length = 10), lty = 2, col = "green")
+  abline(h = seq(.5, by = 1, length = 10), lwd = 3, col = "blue")
+dev.off()

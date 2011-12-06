@@ -1,0 +1,8 @@
+<mx:Application initialize="duncan()"
+                width="300" height="300"
+                layout="absolute" 
+                xmlns:mx="http://www.adobe.com/2006/mxml">
+
+<mx:Script source="reg.as"/>
+
+</mx:Application>

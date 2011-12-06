@@ -1,0 +1,18 @@
+Package: FlashMXML
+Version: 0.2-0
+Title: A simple Flash graphics device for R
+Description:  This implements an R graphics device that produces
+   ActionScript code that can be compiled into a Flash application
+   and displayed in a Web browser or in a stand-alone application.
+   The elements of the plot can also be programmatically manipulated
+   at display time within the Flash application.
+   The package also provides facilities for working with MXML files.
+   We can programmatically manipulate and add content to these files and
+   we can serialize R objects to MXML format.
+Author: Duncan Temple Lang
+Maintainer: Duncan Temple Lang <duncan@r-project.org>
+Depends: methods, RAutoGenRunTime
+Imports: RGraphicsDevice, XML, RAutoGenRunTime
+License: BSD
+
+

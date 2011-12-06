@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" initialize="rdraw(plot);" width="1000" height="1000" layout="absolute">
+  <mx:Script><![CDATA[import mx.core.* ;
+import RFlash.* ;
+import flash.text.* ;
+
+[Embed(source="/Users/duncan/Rpackages/RFreetype/Fonts/arial.ttf", fontName = "arial_plain_10")]
+public var arial_plain_10_font:Class;
+
+
+public var plot : UIComponent= new UIComponent();
+
+public function rdraw(plot : UIComponent) : Array {
+    var ctx : Graphics;
+    var txt : RText;
+    var tmp : RSprite;
+    var fmt : TextFormat;
+    var i : int = 0;
+    var plotObjects : Array = new Array();
+    
+    if(plot == null) plot = plot
+    
+    tmp = new RCircle(78, 911, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(174, 818, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(270, 726, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(366, 633, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(462, 540, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(558, 448, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(654, 355, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(750, 263, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(846, 170, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RCircle(942, 77, 2) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(174, 944, 942, 944) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(174, 944, 174, 950) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(366, 944, 366, 950) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(558, 944, 558, 950) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(750, 944, 750, 950) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(942, 944, 942, 950) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = txt = new RText(169, 966, "2", 0.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    tmp = txt = new RText(361, 966, "4", 0.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    tmp = txt = new RText(553, 966, "6", 0.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    tmp = txt = new RText(745, 966, "8", 0.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    tmp = txt = new RText(932, 966, "10", 0.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 2;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    tmp = new RLine(44, 818, 44, 77) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(44, 818, 38, 818) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(44, 633, 38, 633) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(44, 448, 38, 448) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(44, 263, 38, 263) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = new RLine(44, 77, 38, 77) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = txt = new RText(33, 823, "2", 90.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    txt.txt.rotation = 270 ; txt.txt.embedFonts = true;
+    fmt = new TextFormat();
+    fmt.size = 10 ;
+    fmt.font = "arial_plain_10";
+    txt.txt.setTextFormat(fmt);
+    
+    tmp = txt = new RText(33, 638, "4", 90.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    txt.txt.rotation = 270 ; txt.txt.embedFonts = true;
+    fmt = new TextFormat();
+    fmt.size = 10 ;
+    fmt.font = "arial_plain_10";
+    txt.txt.setTextFormat(fmt);
+    
+    tmp = txt = new RText(33, 453, "6", 90.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    txt.txt.rotation = 270 ; txt.txt.embedFonts = true;
+    fmt = new TextFormat();
+    fmt.size = 10 ;
+    fmt.font = "arial_plain_10";
+    txt.txt.setTextFormat(fmt);
+    
+    tmp = txt = new RText(33, 268, "8", 90.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 1;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    txt.txt.rotation = 270 ; txt.txt.embedFonts = true;
+    fmt = new TextFormat();
+    fmt.size = 10 ;
+    fmt.font = "arial_plain_10";
+    txt.txt.setTextFormat(fmt);
+    
+    tmp = txt = new RText(33, 87, "10", 90.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 2;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    txt.txt.rotation = 270 ; txt.txt.embedFonts = true;
+    fmt = new TextFormat();
+    fmt.size = 10 ;
+    fmt.font = "arial_plain_10";
+    txt.txt.setTextFormat(fmt);
+    
+    tmp = new RPolyline([ 44.417, 944.750, 977.250, 944.750, 977.250, 44.417, 44.417, 44.417, 44.417, 944.750 ]) ;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 0));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    
+    tmp = txt = new RText(485, 988, "Index", 0.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 5;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    tmp = txt = new RText(11, 514, "1:10", 90.000000) ;
+    txt.txt.selectable = true;
+    txt.txt.maxChars = 4;
+    tmp.setContext(new RGContext(0x000000, 0xFFFFFF, [1.000000, 0.000000], 1, "ROUND", "ROUND", 10, 10, "Verdana", 1));
+    plotObjects[i++] = tmp;
+    plot.addChild(tmp);
+    tmp.draw();
+    plot.addChild(txt.txt);
+    
+    txt.txt.rotation = 270 ; txt.txt.embedFonts = true;
+    fmt = new TextFormat();
+    fmt.size = 10 ;
+    fmt.font = "arial_plain_10";
+    txt.txt.setTextFormat(fmt);
+    
+    addChild(plot);
+    return(plotObjects);
+}
+
+
+]]></mx:Script>
+</mx:Application>

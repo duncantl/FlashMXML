@@ -1,0 +1,195 @@
+<?xml-stylesheet type="text/xsl" href="../../Docs/XSL/Todo.xsl" ?> 
+<topics xmlns:r="http://www.r-project.org"
+        xmlns:c="http://www.C.org">
+<title>Todo for RGraphicsDevice</title>
+
+<topic>
+<items>
+
+<item>
+Allow attributes in mxDataGrid, e.g.
+mxDataGrid(mtcars, id, height, itemRollOver)
+</item>
+
+<item>
+Compute the xscale, yscale from the original size of the device at generation time and
+the current size at run-time.
+</item>
+
+<item>
+Create an action script device that doesn't write to an MXML file
+but just actionscript. Does flash do this?
+</item>
+
+<item>
+Get the code for each element and the type.
+
+<r:code>
+library(RGraphicsDevice); library(FlashMXML)
+dev = mxmlDevice("/tmp/foo.mxml", compile = FALSE)
+obj = dev$deviceSpecific$state
+e = environment(obj@doc)
+plot(1:10)
+e$commands
+</r:code>
+
+Break the commands vector into code for each element.
+Currently the groups are from one real name to the next one.
+
+<r:code>
+cmds = e$commands
+split(cmds, cumsum(names(cmds) != ""))
+</r:code>
+</item>
+
+<item>
+Have a hook to annotate  each page before we write it out.
+<br/
+We can actually wait until the end as we collect the pages.
+In this case, just provide a function for the wrapup parameter
+that is a call to annotate and then writeCode.
+
+<r:code>
+library(RGraphicsDevice); library(FlashMXML)
+addPointNames = 
+function(page) {
+  els = FlashMXML:::groupCommands(page)
+  i = names(els) == "circle"
+  els[i] = mapply(function(x, id) {
+                    c(x[-length(x)], 
+                      sprintf('tmp.name = "%d"', id), 
+                      "tmp.buttonMode = true;",
+                      "tmp.addEventListener(MouseEvent.MOUSE_OVER, highlight);",
+                      "tmp.addEventListener(MouseEvent.MOUSE_OUT, unhighlight);",
+                     "")
+                  },
+                  els[i], seq(along = els[i]), SIMPLIFY = FALSE)
+  unlist(els)
+}
+dev = mxmlDevice("/tmp/foo.mxml", compile = FALSE, 
+                 wrapup = function(pages, files, fonts, ...) {
+                     browser()
+                    k = class(pages)
+                     pages = lapply(pages, addPointNames)
+                    pages = new(k, pages)
+                     writeCode(pages, files, fonts = fonts, ...)
+                  })
+
+plot(1:10)
+dev.off()
+</r:code>
+
+</item>
+
+
+<item>
+Additional methods in the RGraphicsDevice via extended RDevDescMethods  objects.
+Can we get them back.
+<br/>
+Need to get the R object back, not the RDevDescPtr.
+<br/>
+This will allows us to get the additional slots.
+<br/>
+Extend RDevDescMethods structure in C to add a SEXP
+for the R object representing the methods object.
+Can we use the state field. Looks like that is what it is
+for. Done.
+
+<r:code>
+library(FlashMXML)
+dev = mxmlDevice("/tmp/foo.mxml", compile = FALSE)
+class(dev$deviceSpecific$state)
+</r:code>
+
+<br/>
+See tests/deviceClass.R
+Crash at the end when device is closed.
+</item>
+<item>
+Methods to set individual slots.
+Update the state object if it inherits from a RDevDescMethods.
+</item>
+
+<item>
+Allow us to change the size of the device when we 
+move to a new page.
+This is related to the different dimensions
+for multiple plots.
+</item>
+
+<item>
+matrix of dimensions for multiple plots.
+<br/>
+Overall dimension and then for each plot.
+</item>
+
+<item status="done">
+Allow the caller to specify the base class for the UIComponent for globals.
+<br/>
+Also allow the caller to specify not creating the globals 
+when she will do the layout herself.
+</item>
+
+<item>
+Perhaps move findFontFile into Rfreetype for other packages to use.
+</item>
+
+<item status="done">
+Where to find the font files.
+<br/>
+In system.file("Fonts", pacakge = "Rfreetype")
+or 
+options()$FontDirectory
+</item>
+
+<item>
+setContext() for the R_GE_gcontextPtr and mapping it to RGContext
+<br/>
+What do we mean here? Is this for the method in
+RSprite  and sub-classes.
+Or is it in the RGraphicsDevice?
+</item>
+
+<item>
+FontMetricInfo
+</item>
+
+<item>
+Rotated, embedded fonts
+</item>
+
+<item>
+Finish the FlashPlotCode and friends.
+</item>
+
+<item>
+Document and export
+ makeEls makeObjects mxArrayCollection mxDataGrid  mxType
+ mxTypeTable setContext setObjectContext tmp toRGBHexInt
+ Types XMLList
+</item>
+
+
+
+<item status="done">
+writeCode needs to return the name of the functions.
+</item>
+
+
+<item status="done">
+Handle multiple plots within pages.
+</item>
+
+
+<item status="done">
+Return a device object from mxmlDevice() that gives
+ the functions/methods so we can programmatically
+ query and manipulate the state.
+<br/>
+See the RGraphicsDevice FAQ.
+</item>
+
+
+</items>
+</topic>
+</topics>

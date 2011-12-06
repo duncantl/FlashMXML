@@ -1,0 +1,6 @@
+source("../../R/device.R")
+library(maps)
+flashDevice("bob.as")
+ map('state', col = c('red', 'blue'), fill = TRUE)
+# plot(1:10)
+dev.off()

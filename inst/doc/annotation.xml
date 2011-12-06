@@ -1,0 +1,367 @@
+<article xmlns:as="http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/"
+         xmlns:r="http://www.r-project.org"
+         xmlns:omg="http://www.omegahat.org">
+<section>
+<title>Introduction</title>
+<para>
+The goal is to be able to make these annotations within R code
+rather than writing a lot of ActionScript code. 
+Since R is not involved/available at the Flash run-time,
+we cannot use R code at that time. So if we are to use
+R code for the annotations, that must generate
+MXML and/or ActionScript code.  This is 
+very similar to what we do in SVGAnnotation.
+</para>
+<para>
+So for the first few examples, we'll focus on the ActionScript
+that does things. Then we can turn our attention to defining
+utilities in R that create this code for us.
+</para>
+</section>
+<section>
+<title>Basic Interaction via a Scatter Plot</title>
+<para>
+We will start by putting the ability to mouse over points in a simple
+scatter plot. See <ulink url="Examples/mtcars.swf"/>. We use the
+mtcars data set and plot mpg against weight.  We create the plot and
+then find the corresponding elements in the plot array that are
+circles.  We put the event handlers on these objects.
+<r:code>
+mxmlDevice("mtcars.mxml")
+ plot(mpg ~ wt, mtcars)
+dev.off()
+</r:code>
+It turns out that these are the first thirty two elements.
+So we can write ActionScript code to annotate these.
+We'll just change the points to be filled.
+</para>
+<para>
+We'll create a new top-level/entry function and it will call
+our generated function, <as:func>rdraw</as:func>. 
+That function returns the array of the graphical elements.
+<as:code><![CDATA[
+public function myPlot() : void {
+  var plotEls : Array;
+  plotEls = rdraw();
+
+  for(var i : int  = 0; i < 32; i++) {
+     plotEls[i].addEventListener(MouseEvent.MOUSE_OVER, display);
+     plotEls[i].addEventListener(MouseEvent.MOUSE_OVER, undisplay);
+  }
+}
+]]></as:code>
+To highlight the point, we get the 
+RSprite object associated with the event
+and cast it to an RSprite. Next we 
+set its fill color to, e.g., red.
+We also change its fill from being transparent
+to being opaque by setting its alpha level.
+This is the second element of the alpha array (i.e. index is 1).
+Changing this value  won't do anything visibly unless we redraw
+the shape.
+<as:code>
+public function display(e : Event) : void {
+   var o : RSprite ; 
+   o = e.target as RSprite;
+   o.gcontext.fill = 0xFF0000;
+   o.gcontext.alpha[1] = 1.0;
+   o.draw();
+}
+</as:code>
+The unhighlight is quite simple too.
+We just change the alpha level for the fill
+to be 0 and redraw.
+<as:code>
+public function undisplay(e : Event) : void {
+   var o : RSprite ; 
+   o = e.target as RSprite;
+   o.gcontext.alpha[1] = 0;
+   o.draw();
+}
+</as:code>
+</para>
+</section>
+
+<section>
+<title>Updating the Text on a Label</title>
+<para>
+Let's go a little further and put a Label component 
+in the top-left corner of the Flash screen and update
+it as we move over each point to indicate the index of the point.
+See <ulink url="Examples/mtcars1.swf"/>.
+We can do this by adding the following XML to
+the mtcars.mxml file
+<programlisting><![CDATA[
+ <mx:Label id="lab" text="Hi there"/>
+]]></programlisting>
+Now, we can use this to display the index
+of the point. When we mouse over the point,
+we will set the text of this label to the index of that point.
+<as:code><![CDATA[
+public function myPlot() : void {
+  var plotEls : Array;
+  plotEls = rdraw();
+
+  for(var i : int  = 0; i < 32; i++) {
+     plotEls[i].objects["index"] = i + 1;
+     plotEls[i].addEventListener(MouseEvent.MOUSE_OVER, display);
+  }
+}
+
+public function display(e : Event) : void {
+   var o : RSprite ; 
+   o = e.target as RSprite;
+   lab.text = "point " + o.objects["index"];
+}
+]]></as:code>
+We don't bother unhighlighting as this way we can allow
+the last selection to persist
+</para>
+</section>
+
+
+<section>
+<title>Working with Data</title>
+<para>
+So let's try to connect this with real data now.
+When we mouse over a point, let's put the value of a
+third variable, say the type of the car, into the label.
+See <ulink url="Examples/mtcars2.swf"/>.
+If the graphical object has its index, we can use this to index
+into a data array. So let's suppose we have an array 
+of car type names called <as:var>carTypes</as:var>.
+We can then use the following event handler
+<as:code>
+public function display(e : Event) : void {
+   var o : RSprite = e.target as RSprite;
+   lab.text = carTypes[ o.objects["index"] - 1 ];
+}
+</as:code>
+</para>
+<para>
+So how do we move the data from R to our MXML file and make it
+available to our code at run-time.
+There are two ways. One is to serialize it in JSON format
+and insert it into our ActionScript code.
+We can use <omg:pkg>RJSONIO</omg:pkg> to do this, e.g.
+<r:code>
+cat("var carTypes : Array =", toJSON(rownames(mtcars)), ";")
+</r:code>
+And this produces 
+<as:code>
+var carTypes : Array = [ "Mazda RX4", "Mazda RX4 Wag", "Datsun 710",
+   "Hornet 4 Drive", "Hornet Sportabout", "Valiant", "Duster 360", 
+   "Merc 240D", "Merc 230", "Merc 280", "Merc 280C", "Merc 450SE", 
+   "Merc 450SL", "Merc 450SLC", "Cadillac Fleetwood", "Lincoln Continental", 
+   "Chrysler Imperial", "Fiat 128", "Honda Civic", "Toyota Corolla", 
+   "Toyota Corona", "Dodge Challenger", "AMC Javelin", "Camaro Z28", 
+   "Pontiac Firebird", "Fiat X1-9", "Porsche 914-2", "Lotus Europa", 
+   "Ford Pantera L", "Ferrari Dino", "Maserati Bora", "Volvo 142E" ];
+</as:code>
+</para>
+<para>
+The second approach to serializing the R object into MXML is to convert it into
+an XML representation. We'll return to this later.
+</para>
+</section>
+
+<section>
+<title>Data Grid &amp; Plots</title>
+<para>
+Let's add a data grid above the plot. We can then arrange that when we
+highlight a point in the plot, we scroll to the corresponding row and
+highlight that.  Similarly, if we highlight one or more rows in the
+data grid, we highlight the corresponding points.
+See <ulink url="Examples/dataGrid.swf"/>.
+</para>
+<para>
+The first thing to do is create the plot and the data grid.
+<r:code>
+mxmlDevice("dataGrid.mxml", top = 300, compile = FALSE)
+  plot(mpg ~ wt, mtcars)
+dev.off()
+</r:code>
+Next we add the data grid via the R function <r:func>mxDataGrid</r:func>.
+We give it an id so that we can refer to in ActionScript code.
+<r:code>
+doc = xmlParse("dataGrid.mxml")
+addChildren(xmlRoot(doc), mxDataGrid(mtcars, attrs = c(id = "grid", height = 300)))
+</r:code>
+</para>
+<para>
+The DataGrid has a scrollToIndex method.
+So we can implement our display event handler as
+<as:code>
+public function display(e : Event) : void {
+   var o : RSprite = e.target as RSprite;
+   dataGrid.scrollToIndex( o.objects["index"] - 1 );
+}
+</as:code>
+assuming we have set the index on each graphical element
+as we did in previous examples.
+So let's add these two ActionScript functions
+<r:code><![CDATA[
+txt = 
+'
+var plotElements: Array;
+
+public function myPlot() : void {
+  var plotEls : Array;
+  plotEls = rdraw();
+  plotElements = plotEls;
+
+  for(var i : int  = 0; i < 32; i++) {
+     plotEls[i].objects["index"] = i + 1;
+     plotEls[i].addEventListener(MouseEvent.MOUSE_OVER, display);
+  }
+}
+
+public function display(e : Event) : void {
+   var o : RSprite = e.target as RSprite;
+   grid.scrollToIndex( o.objects["index"] - 1 );
+}'
+newXMLNode("mx:Script", newXMLCDataNode(txt),  parent = xmlRoot(doc))
+]]></r:code>
+We also change the <xml:attr>initialize</xml:attr> to call our new
+function <as:func>myPlot</as:func>
+<r:code>
+top =  xmlRoot(doc)
+xmlAttrs(top) = c(initialize = "myPlot()")
+</r:code>
+We can now save the MXML document and then compile it:
+<r:code>
+saveXML(doc, docName(doc))
+mxmlc(docName(doc))
+</r:code>
+</para>
+<para>
+Now when we view this document, each time we move over a point in the plot, 
+the data grid scrolls to the corresponding row.
+</para>
+<para>
+How about selecting a row in the data grid and highlighting the
+corresponding point.
+We can add an event listener  for an event 
+<as:eventName>DataGrid.itemRoolOver</as:eventName>.
+This needs to get the index of the row  in the data
+grid and this is a property - <as:prop>rowIndex</as:prop> - of the ListEvent object passed to the
+handler.
+We can then highlight the point with an adaptation of our earlier code.
+This function needs access to the array of plot elements, so we need to arrange
+to store this globally.
+That is why we did so (silently) in the <as:func>myPlot</as:func> function.
+<as:code>
+public function gridDisplay(e : ListEvent) : void {
+   var o : RSprite = plotElements[e.rowIndex];
+   o.gcontext.fill = 0xFF0000;
+   o.gcontext.alpha[1] = 1.0;
+   o.draw();
+}
+</as:code>
+To connect this event handler with the grid, we might
+<as:code eval="false">
+grid.addEventListener(DataGrid.itemFocusIn, gridDisplay);
+</as:code>
+but this doesn't seem to want to compile.
+So instead, we can do this via an attribute
+on the mx:DataGrid, i.e.
+<programlisting><![CDATA[
+ <mx:DataGrid id="grid" itemRollOver="gridDisplay(event)" >
+]]></programlisting>
+</para>
+</section>
+
+
+<section>
+<title>Maps</title>
+<para>
+Let's deal with a map.
+We'll illustrate how to add event handlers to highlight
+the current state we mouse over. 
+See <ulink url="Examples/usa.swf"/>.
+It is an uninteresting
+example as the action is not data-related. But it illustrates
+the basics steps and we can build on this to, e.g.,
+show county-level data in a popup HTML window,
+or associate the state (polygon generally) with an entry 
+in a data grid.
+<r:code>
+library(maps)
+mxmlDevice("usa.mxml")
+  map('state', col = "grey",  fill = TRUE)
+dev.off()
+</r:code>
+</para>
+<para>
+Next we loop over all the elements as we know they are all polygons.
+We add an MOUSE_OVER and a MOUSE_OUT event handler for each polygon.
+We define the handler functions  below
+<as:code><![CDATA[
+public function myPlot() : void {
+  var plotEls : Array;
+
+  plotEls = rdraw();
+
+  for(var i : int  = 0; i < plotEls.length; i++) {
+     plotEls[i].addEventListener(MouseEvent.MOUSE_OVER, highlight);
+     plotEls[i].addEventListener(MouseEvent.MOUSE_OUT, unhighlight);
+  }
+}
+]]></as:code>
+The first event handler highlights the current state.
+We do this by setting the fill color of the graphical object's
+<as:field>gcontext</as:field>. Before we do this, we
+save the original value and store it in the
+generic dictionary of the graphical object.
+This allows the unhighlight handler to reset the value.
+
+<as:code>
+public function highlight(e : Event) : void {
+   var o : RSprite ; 
+   o = e.target as RSprite;
+   o.objects["oldFill"] = o.gcontext.fill;
+   o.gcontext.fill = 0xFF0000;
+   o.draw();
+}
+</as:code>
+Now we define the unhighlight handler.
+<as:code>
+public function unhighlight(e : Event) : void {
+   var o : RSprite ; 
+   o = e.target as RSprite;
+   o.gcontext.fill = o.objects["oldFill"];
+   o.draw();
+}
+</as:code>
+</para>
+</section>
+
+
+<section>
+<title>Other Examples</title>
+<section>
+<title>Calendars and Time Series</title>
+We might specify two calendar components to specify the start and end of the time period
+for our plot.
+</section>
+<section>
+<title>Sliders for Selecting Elections and Updating Maps</title>
+We have an example of changing the colors of states based on election results
+for different years. A slider controls the year.
+</section>
+<section>
+<title>Selecting Time Series via Radio Buttons</title>
+Radio boxes control what time series we display.
+See the European Exchange Rate example in the SVGAnnotation suite of examples.
+</section>
+<section>
+<title>Different Plots via a Data Grid</title>
+With a data grid, allow the user to click on a variable column 
+and switch to a plot with that on the Y axis against time, for example.
+So we would have lots of plots in the background and we would clear
+the existing content and call the function for that plot.
+</section>
+</section>
+</article>
+
+

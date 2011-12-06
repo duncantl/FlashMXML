@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Represent R objects in MXML</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for mxDataGrid {unknown}"><tr><td>mxDataGrid {unknown}</td><td align="right">R Documentation</td></tr></table>
+<h2>Represent R objects in MXML</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This the start of a collection of functions that 
+convert R objects to a representation in MXML so that
+the data can be used with Flash applications.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mxDataGrid(val, attrs = character(), rownames = "id")
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>val</code></td>
+<td>
+a data frame (or matrix with column names) which is
+serialized as a data provider.</td></tr>
+<tr valign="top"><td><code>attrs</code></td>
+<td>
+a vector of attributes to place in the new XML
+mx:DataGrid node. These might specify an id for the new component,
+the width or height,  an ActionScript code segment for an event
+handler, and so on.</td></tr>
+<tr valign="top"><td><code>rownames</code></td>
+<td>
+either a character string giving the name of the
+variable to use in the data frame to represent the row names
+or an empty character vector to indicate that the row names should
+not be displayed.
+This can also be a logical value with <code>TRUE</code> indicating that
+they should be displayed and we use the variable name "id",
+or <code>FALSE</code> indicating to not display the row names.
+</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+An invisible XMLInternalNode which can be added to an MXML document.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+<a href="http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/fl/controls/DataGrid.html">http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/fl/controls/DataGrid.html</a>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  print(mxDataGrid(mtcars))
+</pre>
+
+
+
+<hr><div align="center">[Package <a href="00Index.html">Index]</a></div>
+
+</body></html>

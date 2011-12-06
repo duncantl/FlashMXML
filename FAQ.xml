@@ -1,0 +1,72 @@
+<faq
+	xmlns:sh="http://www.shell.org">
+
+<q>
+From where do I download the Flash SDK tools ?
+<a>
+<ulink url="http://www.adobe.com/go/flex4_sdk"/>
+</a>
+</q>
+<q>
+When installing this package, how does R find the mxmlc compiler?
+<a>
+In the absence of any other information, the
+configuration script will look for
+the FlexSDK files in /usr/local, $HOME/Flex and $HOME/Projects/Animation/Flex
+and terminate when it finds a lib/ directory and
+lib/mxmcl.jar in one of those directories.
+If you have not installed the FlexSDK in any of these locations,
+you can specify the directory in which you did
+via the --with-flex-dir flag, i.e.
+<sh:code>
+ R CMD INSTALL --configure-args='--with-flex-dir=/my/directory' FlashMXML 
+</sh:code>
+You can also specify the command to invoke the mx compiler, i.e. mxmlc,
+by setting the environment variable MXMLC
+</a>
+</q>
+<q>
+The FlexSDK expires after 60 days. What do I do then?
+<a>
+No, there is a free FlexSDK available at
+<ulink url="http://www.adobe.com/cfusion/entitlement/index.cfm?e=flex3sdk"/>.
+This is accessible from the main page
+<ulink url="http://www.adobe.com/products/flex/"/>
+via the "Get the Free Flex 3.4 SDK"
+(or whatever version is available).
+Be aware that this is a large 
+</a>
+</q>
+<q>
+How do I add a directory to where mxmlc looks for ActionScript files
+<a>
+Use -compiler.source-path+=/my/dir
+</a>
+</q>
+<q>
+I get warning messages from the MXML compiler 
+saying something along the lines
+<programlisting>
+Warning: Source path entry, '/Users/duncan/Books/XMLTechnologies/Rpackages/FlashMXML/inst', is a subdirectory of source path entry, '/Users/duncan/Books/XMLTechnologies/Rpackages/FlashMXML'.
+</programlisting>
+Should I be  concerned?
+<a>
+No!
+</a>
+</q>
+
+<q>
+Are there any tools for debugging Flash in a browser?
+<a>
+<p>Use the debugging version of the Flash Player.
+See the file Examples/debug.mxml for a way to test whether
+you are using the debugging version.
+</p>
+<p>
+You can use the 
+<ulink url="http://www.sephiroth.it/firefox/flashtracer/">Firefox plugin FlashTracer</ulink>
+to examine the output from trace() calls in your Flash/ActionScript code.
+</p>
+</a>
+</q>
+</faq>

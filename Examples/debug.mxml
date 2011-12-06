@@ -1,0 +1,6 @@
+<mx:Application           xmlns:mx="http://www.adobe.com/2006/mxml">
+
+<mx:Label text="Flash Player: {flash.system.Capabilities.version}
+ Debug Player: {flash.system.Capabilities.isDebugger}"/>
+
+</mx:Application>

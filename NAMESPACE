@@ -1,0 +1,19 @@
+import(RAutoGenRunTime)
+import(RGraphicsDevice)
+import(XML)
+
+#importClassesFrom(RGraphicsDevice, RGB)
+
+#exportClasses(RGB, RGBStrict)
+
+export(flash, flashDevice, mxmlDevice)
+export(mxmlc)
+
+
+export(XMLList, mxDataGrid)
+exportMethods(coerce)
+
+export(writeCode)
+exportMethods(writeCode)
+
+

@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: ActionScript Graphics Device</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for flash {unknown}"><tr><td>flash {unknown}</td><td align="right">R Documentation</td></tr></table>
+<h2>ActionScript Graphics Device</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This graphics device is the one responsible for generating
+ActionScript code that displays R plots in Flash based on high-level graphics objects
+within Flash.  
+</p>
+<p>
+We typically use <code><a href="../../../doc/html/search/SearchObject.html?mxmlDevice">mxmlDevice</a></code> to generate and compile an entire Flash application that can be viewed
+directly or in a Web browser.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+flash(file, dim = c(1000, 800), col = "black", fill = "transparent", ps = 10,
+      wrapup = writeCode, top = 0, left = 0, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+to where the generated code should be written. This can be the name of a local file,
+or a connection.</td></tr>
+<tr valign="top"><td><code>dim</code></td>
+<td>
+a numeric vector of length 2 giving the width and height of the graphics device.</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+the "initial" color to use for drawing.</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+the initial color to use for filling rectangles, circles, polygons, etc.</td></tr>
+<tr valign="top"><td><code>ps</code></td>
+<td>
+the initial point size for fonts.</td></tr>
+<tr valign="top"><td><code>wrapup</code></td>
+<td>
+a function that is called when the device is closed. This is invoked with a
+list with an element for each of the generated plots and each element is a character vector containing 
+the generated code. The second argument is <code>file</code>.  The ... collection for this 
+function is also  passed to provide additional customization
+parameters.</td></tr>
+<tr valign="top"><td><code>top</code></td>
+<td>
+the offset (an integer) for the top of the plot relative to
+the Flash application. This can be used to leave space at the top of
+the application for other components.</td></tr>
+<tr valign="top"><td><code>left</code></td>
+<td>
+the offset (an integer) for the left side of the plot relative to
+the Flash application. This can be used to leave space at the left side of
+the application for other components.</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+additional parameters passed directly to <code>wrapup</code>.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+A reference to the C-level device. This is an object of class
+<code><a href="../../RGraphicsDevice/html/DevDescPtr-class.html">DevDescPtr-class</a></code>.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="../../../doc/html/search/SearchObject.html?mxmlDevice">mxmlDevice</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+ flash("bob.as")
+   plot(1:10)
+ dev.off()
+</pre>
+
+
+
+<hr><div align="center">[Package <a href="00Index.html">Index]</a></div>
+
+</body></html>

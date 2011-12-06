@@ -1,0 +1,95 @@
+<!DOCTYPE article [
+ <!ENTITY prefuse "<prefuse/>">
+]>
+<article xmlns:r="http://www.r-project.org"
+         xmlns:omg="http://www.omegahat.org"       
+         xmlns:as="http://www.adobe.com/devnet/actionscript">
+<section>
+<title></title>
+<para>
+
+The goal here is to use R to draw a map in Flash and give it tooltips,
+potentially animate it over time and so on.  We have done this for
+SVG. So now we explore how we can do it in Flash. Unfortunately, we
+have to draw the polygons ourselves and not use an R graphics device.
+But see <omg:pk>RGraphicsDevice</omg:pk> for more information on this.
+</para>
+
+
+<para>
+<r:code>
+library(maps)
+m = map('county', plot = FALSE, fill = TRUE, col = 'red')
+</r:code>
+</para>
+<para>
+We can use the Shape class in &prefuse; and 
+<as:func>drawPolygon</as:func>.
+To use this, we specify the coordinates
+as a single array of successive x, y pairs.
+</para>
+
+<para>
+We transform the coordinates to lie between 0 and 1.
+<r:code>
+r = range(m$x, na.rm = TRUE)
+x = (m$x - r[1])/diff(r)
+r = range(m$y, na.rm = TRUE)
+y = (r[2] - m$y)/diff(r)
+</r:code>
+
+Next we separate the polygons by finding all the <r:na/>s and put the
+contiguous values in between into their own arrays.  While we are at
+this, we scale them for the Flex screen coordinates, i.e. between 0
+and 800 and 0 and 600 on the horizontal and vertical axes
+respectively.  These are values we select, but have to coordinate with
+the mx:Application node in the MXML file.
+<r:code>
+id = cumsum(is.na(x))
+id = id[ !is.na(x) ]
+x = x[ !is.na(x) ]
+y = y[ !is.na(y) ]
+h = 600
+w = 800
+
+poly.arrays = list()
+poly.arrays[seq(along = m$names)] = 
+              by(data.frame(w*x + 100, h*y + 200), id, 
+                  function(x) as.numeric(t(as.matrix(x))))[]
+</r:code>
+Next we write these 
+<r:code>
+library(R2JSON) # or our RJSONIO
+x = toJSON(poly.arrays)
+cat("public var polys : Array = ", x, file = "usaPolygons.as")
+</r:code>
+</para>
+
+<para>
+Now we generate some colors as if they were the election
+results for the 24 elections for each of the counties.
+(For the moment, we will use random values.
+I haven't finished cleaning the data from the many elections.)
+<r:code>
+countyColors = lapply(seq(length = 24),
+                       function(i) {
+                          p = runif(length(m$names))
+                          structure(sapply(substring(rgb(p, 0, 1 - p), 2), as.hexmode), class = "hexmode")
+                       })
+
+cat("public var countyColors : Array = ", toJSON(countyColors), ";", file = "usaColors.as")
+</r:code>
+</para>
+
+</section>
+<section>
+<para>
+<itemizedlist>
+<listitem><para>[Done] Specify the colors as an array of arrays and use these when drawing 
+the initial polygons.</para></listitem>
+<listitem><para>[Done] Slider to change the colors</para></listitem>
+<listitem><para>Popup window displaying an HTML document</para></listitem>
+</itemizedlist>
+</para>
+</section>
+</article>

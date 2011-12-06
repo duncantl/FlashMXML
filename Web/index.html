@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<link rel="stylesheet" href="../OmegaTech.css"/>
+<title>FlashMXML</title>
+</head>
+
+
+<body>
+<h1>FlashMXML</h1>
+<p align=right><a href="FlashMXML_0.2-0.tar.gz">FlashMXML_0.2-0.tar.gz</a> (07 February 2010)</p>
+
+<p>
+This package  provides
+<ul>
+  <li> various graphics devices for R that generate the plot as ActionScript
+       code that can be displayed within a Flash application, and
+  <li> tools to generate MXML content from R data
+  <li> an R function for compiling MXML files to SWF binaries to be
+      run by a Flash Player in a Web browser or stand-alone.
+</ul>
+
+One of the motivations is to be able to build stand-alone graphical
+displays from within R  that use Flash to display the plots
+and also to provide many GUI components.
+</p>
+
+<p>
+This does not make R available to the Flash run-time engine.
+The connection between R and Flash is when we generate the
+Flash code from within R to later render the plots in Flash
+quite separately.
+</p>
+
+<p>
+The <code class="rfunc">mxmlDevice()</code> function creates an MXML application
+document (and compiles it by default) containing the ActionScript
+code to display the document. One can augment this MXML document
+after the device has been closed to annotate the plot with interactive
+components, event handlers, etc.
+</p>
+<p>
+The <code class="rfunc">flash()</code> function implements
+a device  that produces just the ActionScript code for the plot.
+It generates code that creates ActionScript objects of different
+classes such as RCircle, RLine, RText, RPolyline, RPolygon.
+These can be redrawn, moved, transformed, etc. and each
+has an RGContext object that represents the graphical parameters.
+These can be changed and the object redrawn.
+This device forms the basis of the <code class="rfunc">mxmlDevice()</code>
+device which adds processing of the MXML file.
+</p>
+
+<p>
+A third device <code class="rfunc">flashDevice</code> is
+a simpler, more direct rendering of the R plot in Flash.
+It generates the ActionScript code that draws the lines, circles,
+polygons, etc. using simpler Sprite objects. The objects do not have
+knowledge of the original R graphics parameters or the coordinates of
+their path(s).
+</p>
+
+
+<p> This is a very early release that is intended as a prototype and
+an example of how we might go about leveraging R's graphics from
+Flash.  The graphics device works, but needs some work with respect to
+fonts and positioning of text. I hope that others will take this and
+experiment and develop better versions or feedback changes to me to
+improve this version.  All of the code is in R as we use the <a
+href="../RGraphicsDevice">RGraphicsDevice</a> package.  This makes it
+quite easy to explore alternative implementations of different
+aspects or write an entirely new device.
+</p>
+
+<h2>Documentation</h2>
+<dl>
+  <dt>
+  <li>  <a href="annotation.pdf">Some examples</a> of post-processing
+      the MXML/ActionScript code to provide interaction. Here
+      we describe how to do this in ActionScript code.
+  <dd>
+      And some of the generated <a href="Examples">code</a>.
+      View the swf files for running code, mxml files for the code
+       generated from R.
+
+  <dt>
+  <li> <a href="annotatingInR.pdf">Annotation in R</a>
+  <dd> This provides examples of how we can post-process the Flash
+  plot in R, rather than ActionScript. Currently we  annotate
+      the ActionScript code, but the generation of this code is in R.
+      In the future, we may develop a generic annotation mechanism
+     where   one annotates abstract descriptions of the plot elements.
+      
+      
+  <dt>
+  <li> Some notes/ideas on <a href="implementation.pdf">implementation</a>.
+  <dd>
+
+  <dt>
+  <li> <a href="Rhtml">R help files</a>
+  <dd> There are many more classes and functions that are not exported
+  but should be of interest to anyone wanting to extend this package.
+      
+</dl>
+
+
+<h2>Related Packages</h2>
+<ul>
+  <li> the <a href="../RGraphicsDevice">RGraphicsDevice</a>
+       provides a framework for implementing R graphics devices
+      entirely within R, avoiding the need for C code.
+  <li> the <a href="../SVGAnnotation">SVGAnnotation</a>   package
+      uses SVG to display R graphics and provides many facilities
+      for post-processing the regular R graphics to provide
+      tooltips, interaction, animation and GUI components on the
+      plots.
+  <li> the  <a href="../RGraphicsDevice">RGraphicsDevice</a>
+       contains an example R graphics device that generates JavaScript
+      code for use in an HTML/JavaScript canvas element of an HTML document.
+</ul>
+
+
+
+<hr>
+<address><a href="http://www.stat.ucdavis.edu/~duncan">Duncan Temple Lang</a>
+<a href=mailto:duncan@wald.ucdavis.edu>&lt;duncan@wald.ucdavis.edu&gt;</a></address>
+<!-- hhmts start -->
+Last modified: Sun Feb  7 16:24:37 PST 2010
+<!-- hhmts end -->
+</body> </html>

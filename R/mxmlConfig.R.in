@@ -1,0 +1,4 @@
+FlexInstallation = "@FLEX_DIR@"
+RFlashDir = system.file(package = "FlashMXML")
+mxmlcCommand = @MXMLC@
+

@@ -1,0 +1,23 @@
+<changelog xmlns:r="http://www.r-project.org"
+	   xmlns:omg="http://www.omegahat.org"
+           xmlns:env="http://www.shell.org">
+<omg:pkg>FlashMXML</omg:pkg>
+
+<version num="0.2-0">
+<change>
+Support for "external" fonts.
+</change>
+
+<change>
+Fix rendering of rectangles.
+</change>
+
+<change>
+Minor reorganization of the generated code to put the 
+type of element being created as a name on the first
+line of code. This can be used to post-process the elements.
+</change>
+
+</version>
+
+</changelog>

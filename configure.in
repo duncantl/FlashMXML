@@ -1,0 +1,32 @@
+AC_INIT(R/mxmlConfig.R.in)
+
+AC_ARG_WITH(flex-dir, [--with-flex-dir=dirName], [FLEX_DIR=${withval}])
+
+if test -z ${FLEX_DIR} ; then
+   # got to go and look for it
+  for d in /usr/local $HOME/Flex $HOME/Projects/Animation/Flex; do 
+     echo "Looking in $d"
+     if test -d $d && test -d $d/lib && test -r $d/lib/mxmlc.jar ; then
+        FLEX_DIR=$d
+        break;
+     fi
+  done
+fi
+
+if test -z "${MXMLC}" ; then
+  if test -x $FLEX_DIR/bin/mxmlc; then
+    MXMLC="\"$FLEX_DIR/bin/mxmlc\""
+  else
+    MXMLC="NULL"
+  fi
+fi
+
+echo ""
+echo "Flex directory: $FLEX_DIR"
+echo "MXML compiler command: $MXMLC"
+echo ""
+
+AC_SUBST(FLEX_DIR)
+AC_SUBST(MXMLC)
+
+AC_OUTPUT(R/mxmlConfig.R)

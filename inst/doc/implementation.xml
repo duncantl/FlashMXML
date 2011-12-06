@@ -1,0 +1,90 @@
+<article xmlns:r="http://www.r-project.org" 
+         xmlns:omg="http://www.omegahat.org"
+         xmlns:js="http://www.ecma-international.org/publications/standards/Ecma-262.htm" 
+         xmlns:as="http://www.ecma-international.org/publications/standards/Ecma-262.htm" 
+         xmlns:html="http://www.w3.org/TR/html401"
+         xmlns:mx="http://www.adobe.com/2006/mxml"
+         xmlns:flx="http://www.adobe.com/2006/mxml"
+         xmlns:xi="http://www.w3.org/2003/XInclude" >
+<title>A Prototype Flash Graphics Device for R</title>
+<section><title>Introduction</title>
+<para>
+This presents some thoughts on implementing an R graphics
+device that produces content we can display with Flash.
+The goal is not just to render in Flash, but to be able
+to provide interesting GUIs, animations, and general effects
+based on the resulting display.  This influences how we create
+the display.
+</para>
+<para>
+We will initially use the <omg:pkg>RGraphicsDevice</omg:pkg>
+package to implement the device. This is time-efficient while we explore different
+approaches, if a little slow at run-time.
+</para>
+
+<para>
+The basic idea is that we create a collection of visual objects. Each
+of these are <flx:class>R.RSprite</flx:class> objects.  This is a
+derived class that extends Sprite.  Each of these are added to an
+array so that these can be accessed later.  To do this, we implement
+the graphical primitives in our device by having them each create an
+<flx:class>R.RSprite</flx:class> of the appropriate sub-class.  We add
+each to the array when it is created.  Then we access its graphics
+context and assign it to a local variable, <flx:var>ctx</flx:var>. We
+use this to set the graphics parameters based on the
+<r:class>R_GE_gcontextPtr</r:class> object.  Then we render the shape
+and move to the next element of the plot.
+</para>
+
+<para>
+There are two relatively obvious approaches we can take.
+The first is to map the R graphical directives directly
+to ActionScript commands that draw the corresponding
+"shapes".  The result is a long sequence of ActionScript
+commands that we can put in a function that when run in
+the Flash player will render the plot appropriately.
+It also returns the Sprite objects that were used to render the
+different elements of the display.
+The second approach goes a little further.
+In addition to creating the Sprite objects that render the
+elements in the display, we add the information describing the
+element into each Sprite.  For example, we specify the 
+coordinates of the two points for a line, the location and radius 
+for a circle, the array of x, y locations for a polygon,
+and the graphical parameter such as color, line width, etc. for each element.
+In this way, the resulting ActionScript objects  carry their description
+with them. We can then programmatically manipulate them more meaningfully
+in subseqeunt code.  The result from our graphics device is still an ActionScript function
+that when called renders the plot appropriately, but  we can move the points,
+have them redraw themselves and so on.
+</para>
+<para>
+</para>
+<para>
+We can have our device guess whether the content of text being displayed
+is HTML. If it is, we can have Flash render it as HTML.
+This allows us to quite easily put in hyper-links, draw images, add tables
+and so on.
+</para>
+<para>
+Note that the Sprite objects we use are UIComponent objects that we
+can add to the overall display. This means we can use other UI
+components as our "plotting symbols".  This is useful when we render a
+network/graph, for example, where we want to render the nodes in the
+graph as an interactive object or some complex display. We can render
+an image or another sub-display created by R as ActionScript code.
+</para>
+<para>
+We provide top and left  parameters for
+<r:func>flash</r:func> and <r:func>mxmlDevice</r:func>
+so that we can re-position the plot within the application.
+This can be used to leave space for other components.
+</para>
+<para>
+We can also do this by having a canvas  and arranging for
+the R-generated function to draw on that.
+That is we could pass in a UIComponent to which our
+R-generated ActionScript function would add its display elements.
+</para>
+</section>
+</article>

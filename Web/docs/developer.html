@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Functions, methods and classes for implementing the Flash device</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for writeCode {unknown}"><tr><td>writeCode {unknown}</td><td align="right">R Documentation</td></tr></table>
+<h2>Functions, methods and classes for implementing the Flash device</h2>
+
+
+<h3>Description</h3>
+
+<p>
+Here we document some of the R functions, methods and classes that
+we use to implement the Flash graphics devices. The aim is to 
+inform others who may want to extend the implementation/prototype.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+writeCode(pages, file, imports = FlashImports, funcName = "rdraw", ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>pages</code></td>
+<td>
+essentially a list with an element for each separate display.
+Each element is a character vector containing the lines of the ActionScript code.
+</td></tr>
+<tr valign="top"><td><code>file</code></td>
+<td>
+a file name or connection to which the generated code will be written</td></tr>
+<tr valign="top"><td><code>imports</code></td>
+<td>
+names of flash classes or packages that will be 'import'ed at the beginning of the code</td></tr>
+<tr valign="top"><td><code>funcName</code></td>
+<td>
+the name of the function(s) to create</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+additional parameters for methods</td></tr>
+</table>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+
+<hr><div align="center">[Package <a href="00Index.html">Index]</a></div>
+
+</body></html>

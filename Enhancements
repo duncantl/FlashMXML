@@ -1,0 +1,18 @@
+Post-processing can group the elements into new objects of
+class, e.g, HorizontalAxis, VerticalAxis, Main, AxisLabel, 
+DataPoints, Decorations.
+
+We can arrange these by name as well.
+
+Allow the SWF code generation create a
+hash table rather than an array when we allow names
+to be put on things.
+
+What sort of reflection facilities do we have in Flash/Flex?
+
+
+Rotation of text requires embedded fonts.
+   We could look at the text and embed only the characters
+   we actually use!
+
+  http://www.webpagepublicity.com/free-fonts-c.html#FreeFonts

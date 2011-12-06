@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Create a graphics device which renders via Flash</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="stylesheet" type="text/css" href="../../R.css">
+</head><body>
+
+<table width="100%" summary="page for mxmlDevice {unknown}"><tr><td>mxmlDevice {unknown}</td><td align="right">R Documentation</td></tr></table>
+<h2>Create a graphics device which renders via Flash</h2>
+
+
+<h3>Description</h3>
+
+<p>
+This is a high-level graphics device for R that renders
+the display using compiled Flash generated from 
+commands that this device emits to describe the R plot(s).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+mxmlDevice(file, dim = c(1000, 1000), col = "black", fill = "transparent", ps = 10, 
+           top = 0, left = 0,
+           template = system.file("RFlash", "template.mxml", package = "FlashMXML"),
+           compile = length(file) &amp;&amp; !is.na(file))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file</code></td>
+<td>
+the name of a file or a connection object to which the MXML code and ActionScript code is written.
+If this is <code>NULL</code>, <code>NA</code> or <code>character</code>, the actual MXML document is returned and can be further processed
+before being serialized</td></tr>
+<tr valign="top"><td><code>dim</code></td>
+<td>
+a numeric vector of length 2 giving the width and height of the graphics device.</td></tr>
+<tr valign="top"><td><code>col</code></td>
+<td>
+the "initial" color to use for drawing.</td></tr>
+<tr valign="top"><td><code>fill</code></td>
+<td>
+the initial color to use for filling rectangles, circles, polygons, etc.</td></tr>
+<tr valign="top"><td><code>ps</code></td>
+<td>
+the initial point size for fonts.</td></tr>
+<tr valign="top"><td><code>top</code></td>
+<td>
+the offset (an integer) for the top of the plot relative to
+the Flash application. This can be used to leave space at the top of
+the application for other components.</td></tr>
+<tr valign="top"><td><code>left</code></td>
+<td>
+the offset (an integer) for the left side of the plot relative to
+the Flash application. This can be used to leave space at the left side of
+the application for other components.</td></tr>
+<tr valign="top"><td><code>template</code></td>
+<td>
+the template MXML file which will be modified.</td></tr>
+<tr valign="top"><td><code>compile</code></td>
+<td>
+a logical value indicating whether to compile the resulting MXML file into a SWF file.
+One might want to defer this step in order to post-process the document.
+If <code>file</code> is <code>NULL</code>, <code>NA</code> or <code>character</code>, we do not compile the MXML document.</td></tr>
+</table>
+
+<h3>Value</h3>
+
+<p>
+If <code>file</code> is not <code>NULL</code>, <code>NA</code> or <code>character</code>, the result is an
+<code>XMLInternalDocument</code> object.
+<br>
+Otherwise, we return the name of the generated MXML  file if <code>compile</code> is <code>FALSE</code>
+and the output from the compiler if <code>compile</code> is <code>TRUE</code>.</p>
+
+<h3>Author(s)</h3>
+
+<p>
+Duncan Temple Lang
+</p>
+
+
+<h3>References</h3>
+
+<p>
+http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/display/
+</p>
+
+
+<h3>See Also</h3>
+
+<p>
+<code><a href="../../../doc/html/search/SearchObject.html?flash">flash</a></code>
+<code><a href="../../../doc/html/search/SearchObject.html?mxmlc">mxmlc</a></code>
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+  mxmlDevice("bob.mxml")
+    plot(1:10)
+  dev.off()
+</pre>
+
+
+
+<hr><div align="center">[Package <a href="00Index.html">Index]</a></div>
+
+</body></html>

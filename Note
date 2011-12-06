@@ -1,0 +1,11 @@
+When we install this, we get a problem about the definition
+of RGBStrict.
+But in fact we get errors about simple class definitions, e.g.,
+  setClass("Foo", contains = "character")
+
+If we have RGraphicsDevice not import RAutoGenRunTime,
+then things work okay.
+
+Note that 
+    setClass("XMLList", contains = "XMLInternalNode")
+works fine.
